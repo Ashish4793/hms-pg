@@ -8,7 +8,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const stripe = require('stripe')(process.env.STRIPE_KEY);
-const YOUR_DOMAIN = "http://localhost:4000";
+const YOUR_DOMAIN = "https://hms.cyclic.app/";
 
 const app = express();
 
