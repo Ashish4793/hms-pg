@@ -103,6 +103,10 @@ app.get("/about" , function(req,res){
     res.render("about");
 });
 
+app.get("/rooms" , function(req,res){
+    res.render("rooms");
+});
+
 
 
 app.get("/contact" , function(req,res){
@@ -248,6 +252,9 @@ let roomType;
 let days;
 let tariff;
 let rndomNo;
+let perDayTariff;
+
+
 app.post("/checkroom" , function(req,res){
     if (req.isAuthenticated()){
         rndomNo = Math.floor(1000 + Math.random() * 9000).toString();
@@ -258,6 +265,13 @@ app.post("/checkroom" , function(req,res){
         const endDate = Date.parse(OutDate);
         const diff = new Date(endDate - startDate);
         days = diff/1000/60/60/24;
+        if (roomType==="Single Bedded"){
+            perDayTariff = 1250;
+        } else if (roomType==="Double Bedded"){
+            perDayTariff = 3000;
+        } else {
+            perDayTariff = 6000;
+        }
         if(days!=0){
             if (roomType === "Single Bedded"){
                 tariff = 1250 * days;
@@ -278,7 +292,7 @@ app.post("/checkroom" , function(req,res){
         if (days===0){
             days = 1;
         }
-        res.render("room-avail",{inDate : InDate , outDate : OutDate , roomtype : roomType , stayDays : days , totalAmount : tariff});    
+        res.render("room-avail",{inDate : InDate , outDate : OutDate , roomtype : roomType , stayDays : days , totalAmount : tariff , perDayT : perDayTariff});    
     } else {
         res.redirect("/login");
     }
