@@ -1,0 +1,38 @@
+<%- include("partials/header"); -%>
+
+<div class="container-fluid text-center">
+    <h1 style="color: #C92C6D; margin-bottom: 2px;" class="display-1 heading">HMS GLOBAL</h1>
+    <p style="color: #C92C6D; margin-bottom: 3rem; font-style: italic;">"Hospitality beyond borders."</p>
+  </div>
+  
+  <div style="margin-bottom: 22vh;" class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Your Profile</h4>
+          </div>
+          <div class="card-body text-center">
+            <form action="/changepass" method="get">
+                <label for="name">Name</label>
+                <p style="color: #C92C6D;"><%= userFound.name %></p>
+                <label for="name">Email</label>
+                <p style="color: #C92C6D;"><%= userFound.email %></p>
+                <label for="name">Phone No</label>
+                <p style="color: #C92C6D;"><%= userFound.phone %></p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button style="background-color: #C92C6D; color: white;" type="submit" class="btn btn-block text-center">Change Password</button>
+              </div>
+            </form>
+            <div class=" container text-center">
+              <a href="/bookings"><button style="margin: 3vh; background-color: #C92C6D; color: white;" type="button" class="btn btn-block text-center">View Bookings</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <%- include("partials/footer"); -%>

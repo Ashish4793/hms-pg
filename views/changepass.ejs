@@ -1,0 +1,39 @@
+<%- include("partials/header"); -%>  
+
+<div class="container-fluid text-center">
+    <h1 style="color: #C92C6D; margin-bottom: 2px;" class="display-1 heading">HMS GLOBAL</h1>
+    <p style="color: #C92C6D; margin-bottom: 3rem; font-style: italic;">"Hospitality beyond borders."</p>
+  </div>
+  
+  <div style="margin-bottom: 14vh;" class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Change Password</h4>
+          </div>
+          <div class="card-body">
+            <form action="/changepass" method="POST">
+              <div class="form-group">
+                <label for="name">Enter your Old Password</label>
+                <input type="password" minlength="6" required name="oldpass" class="form-control" placeholder="Enter your old password">
+              </div>
+              <div class="form-group">
+                <label for="name">Enter your New Password</label>
+                <input type="password" minlength="6" required name="newpass" class="form-control" placeholder="Enter your new password">
+              </div>
+              <div class="d-flex justify-content-center">
+                <button style="margin: 1.5vh; background-color: #C92C6D; color: white;" type="b" class="btn btn-block text-center">Submit</button>
+              </div>
+            </form>
+            <div class="container text-center">
+              <a href="/profile"><button style="margin: 1vh; background-color: #C92C6D; color: white;" type="button" class="btn btn-block text-center">Back to profile</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("partials/footer"); -%>  

@@ -1,0 +1,37 @@
+
+<%- include("partials/header"); -%>
+
+<div class="container-fluid text-center">
+    <h1 style="color: #C92C6D; margin-bottom: 2px;" class="display-1 heading">HMS GLOBAL</h1>
+    <p style="color: #C92C6D; margin-bottom: 3rem; font-style: italic;">"Hospitality beyond borders."</p>
+  </div>
+  
+  <div style="margin-bottom: 22vh;" class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Cancel Booking</h4>
+          </div>
+          <div class="card-body">
+            <form action="/cancelbooking" method="POST">
+                <label for="name">Select a Booking</label>
+                <select name="bookingid" required class="form-select" aria-label="Default select example">
+                  <option value="" disabled="disabled" selected="selected">Please select a booking</option>
+                  <% bookingsFound.forEach(function(booking){ %>
+                       <option><%= booking.bookingID %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button style="margin: 3vh; background-color: red; color: white;" type="submit" class="btn btn-block text-center">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("partials/footer"); -%>

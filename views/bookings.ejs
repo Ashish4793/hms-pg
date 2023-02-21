@@ -1,0 +1,42 @@
+
+<%- include("partials/header"); -%>
+
+
+<div class="container-fluid text-center">
+    <h1 style="color: #C92C6D; margin-bottom: 2px;" class="display-1 heading">HMS GLOBAL</h1>
+    <p style="color: #C92C6D; margin-bottom: 3rem; font-style: italic;">"Hospitality beyond borders."</p>
+  </div>
+  <div style="margin-bottom: 40vh;" class="container">
+    <h1 style="margin-bottom: 4vh; text-decoration: underline;" class="display-5 text-center">Your Bookings</h1>
+    <table class="table table-light table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Booking ID</th>
+        <th scope="col">Check-In Date</th>
+        <th scope="col">Check-Out Date</th>
+        <th scope="col">Room Type</th>
+        <th scope="col">Status</th>
+        <th scope="col">Estimated Price</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% bookingsFound.forEach(function(booking){ %>
+        <tr>
+        <th scope="row"> <a style="color: #C92C6D;" href="#"><%= booking.bookingID %></a></th>
+        <td><%= booking.checkinDate %></td>
+        <td><%= booking.checkoutDate %></td>
+        <td><%= booking.RoomType %></td>
+        <td><%= booking.Status %></td>
+        <td>₹<%= booking.Price %></td>      
+        </tr>
+        <% }) %>
+
+    </tbody>
+  </table>
+  <div class=" container text-center">
+    <a href="/cancelbooking"><button style="margin: 3vh; background-color: red; color: white;" type="button" class="btn btn-block text-center">Cancel Booking</button></a>
+  </div>
+  </div>
+
+
+  <%- include("partials/footer"); -%>
