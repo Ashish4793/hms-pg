@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
     name : String,
     phone : {type : String , unique : true},
     username : {type : String , unique : true},
+    secAnswer : String,
     password : String
 });
 
@@ -88,7 +89,7 @@ app.post("/login", passport.authenticate("local",{
 });
 
 app.post("/register" , function(req,res){
-    User.register({username : req.body.username, email : req.body.email, name : req.body.name ,phone : req.body.phone} , req.body.password , function(err,user){
+    User.register({username : req.body.username, email : req.body.email, name : req.body.name ,phone : req.body.phone , secAnswer : req.body.secAnswer} , req.body.password , function(err,user){
         if (err){
             res.render("errors/uaxerror")
         } else {
@@ -131,11 +132,15 @@ app.post("/forgotpass",function(req,res){
 
 app.post("/resetpass" , function(req,res){
     User.findOne({username : hue} , function(err, foundUser){
-        if (!err){
-            foundUser.setPassword(req.body.password , function(){
-                foundUser.save();
-                res.render("errors/success")
-            });
+        if (foundUser.secAnswer===req.body.enteredsecAnswer){
+            if (!err){
+                foundUser.setPassword(req.body.password , function(){
+                    foundUser.save();
+                    res.render("errors/success")
+                });
+            } else {
+                res.render("errors/swrerror")
+            }
         } else {
             res.render("errors/swrerror")
         }
