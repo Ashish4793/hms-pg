@@ -8,7 +8,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const stripe = require('stripe')(process.env.STRIPE_KEY);
-const YOUR_DOMAIN = "https://hms.cyclic.app/";
+const YOUR_DOMAIN = "http://localhost:4000";
 
 const app = express();
 
@@ -47,9 +47,15 @@ userSchema.plugin(passportLocalMongoose);
 
 const consumerBookingSchema = new mongoose.Schema({
     bookingID : {type : String , unique :true},
+    bookingDate : String,
+    bookingName : String,
+    bookingUphn : String,
+    bookingUemail : String,
     bookindUsername : String,
     checkinDate : String,
     checkoutDate : String,
+    RoomPTRF : String,
+    DaysStay : String,
     RoomType : String,
     Status : String,
     Price : String,
@@ -306,11 +312,18 @@ app.post("/checkroom" , function(req,res){
 app.post("/create-checkout-session", async (req, res) => {
     if (req.isAuthenticated()){
         const username = req.user.username;
+        const todayDate = new Date().toISOString().slice(0, 10);
         const bookings = new consumerBooking({
                 bookingID : rndomNo,
+                bookingDate : todayDate,
+                bookingName : req.user.name,
+                bookingUphn : req.user.phone,
+                bookingUemail : req.user.email,
                 bookindUsername : username,
                 checkinDate : InDate,
                 checkoutDate : OutDate,
+                RoomPTRF : perDayTariff,
+                DaysStay : days,
                 RoomType : roomType,
                 Status : "Not yet confirmed",
                 Price : tariff
@@ -367,31 +380,43 @@ app.post("/create-checkout-session", async (req, res) => {
     }
 });
 
-app.post("/bookroom" , function(req,res){
+// app.post("/bookroom" , function(req,res){
+//     if (req.isAuthenticated()){
+//         const username = req.user.username;
+//         const bookings = new consumerBooking({
+//             bookingID : rndomNo,
+//             bookindUsername : username,
+//             checkinDate : InDate,
+//             checkoutDate : OutDate,
+//             RoomType : roomType,
+//             Status : "Not yet confirmed",
+//             Price : tariff
+//         });
+//         bookings.save(function(err){
+//             if (!err){
+//                 res.render("partials/booksuccess", {id : rndomNo})
+//             } else {
+//                 res.render("errors/swrerror")
+//             }
+//         });
+//     } else {
+//         res.redirect("/login")
+//     }
+// });
+
+app.post("/viewinvoice" , function(req,res){
     if (req.isAuthenticated()){
-        const username = req.user.username;
-        const bookings = new consumerBooking({
-            bookingID : rndomNo,
-            bookindUsername : username,
-            checkinDate : InDate,
-            checkoutDate : OutDate,
-            RoomType : roomType,
-            Status : "Not yet confirmed",
-            Price : tariff
-        });
-        bookings.save(function(err){
+        consumerBooking.findOne({bookingID : req.body.bID} , function(err , foundBooking){
             if (!err){
-                res.render("partials/booksuccess", {id : rndomNo})
+                res.render("viewinvoice" , {booking : foundBooking});
             } else {
-                res.render("errors/swrerror")
+                console.log(err);
             }
-        });
+        })
     } else {
-        res.redirect("/login")
+        res.redirect("/login");
     }
 });
-
-
 
 
 

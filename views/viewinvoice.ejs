@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script></head>
+<body>
+    <style>
+        @media print {
+  @page {
+    margin: 0; 
+  }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+
+:root {
+  --primary: #C92C6D;
+  --secondary: #3d3d3d; 
+  --white: #fff;
+}
+
+*{
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari 6 – 15.3, Edge */
+    color-adjust: exact !important;                 /* Firefox 48 – 96 */
+    print-color-adjust: exact !important;           /* Firefox 97+, Safari 15.4+ */
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+.bold{
+	font-weight: 600;
+}
+
+body{
+	background: var(--secondary);
+	padding: 50px;
+	color: var(--secondary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+}
+
+
+@media screen and (max-width: 992px) {
+	.custdiv {
+		width: 30rem;
+	}
+}
+
+
+.wrapper{
+	background: var(--white);
+	padding: 30px;
+}
+
+.invoice_wrapper{
+	border: 3px solid var(--primary);
+	width: 700px;
+	max-width: 100%;
+}
+
+.invoice_wrapper .header .logo_invoice_wrap,
+.invoice_wrapper .header .bill_total_wrap{
+	display: flex;
+	justify-content: space-between;
+	padding: 30px;
+}
+
+.invoice_wrapper .header .logo_sec{
+	display: flex;
+	align-items: center;
+}
+
+.invoice_wrapper .header .logo_sec .title_wrap{
+	margin-left: 5px;
+}
+
+.invoice_wrapper .header .logo_sec .title_wrap .title{
+	text-transform: uppercase;
+	font-size: 18px;
+	color: var(--primary);
+}
+
+.invoice_wrapper .header .logo_sec .title_wrap .sub_title{
+	font-size: 12px;
+}
+
+.invoice_wrapper .header .invoice_sec,
+.invoice_wrapper .header .bill_total_wrap .total_wrap{
+	text-align: right;
+}
+
+.invoice_wrapper .header .invoice_sec .invoice{
+	font-size: 28px;
+	color: var(--primary);
+}
+
+.invoice_wrapper .header .invoice_sec .invoice_no,
+.invoice_wrapper .header .invoice_sec .date{
+	display: flex;
+	width: 100%;
+}
+
+.invoice_wrapper .header .invoice_sec .invoice_no span:first-child,
+.invoice_wrapper .header .invoice_sec .date span:first-child{
+	width: 70px;
+	text-align: left;
+}
+
+.invoice_wrapper .header .invoice_sec .invoice_no span:last-child,
+.invoice_wrapper .header .invoice_sec .date span:last-child{
+	width: calc(100% - 70px);
+}
+
+.invoice_wrapper .header .bill_total_wrap .total_wrap .price,
+.invoice_wrapper .header .bill_total_wrap .bill_sec .name{
+	color: var(--primary);
+	font-size: 20px;
+}
+
+.invoice_wrapper .body .main_table .table_header{
+	background: var(--primary);
+}
+
+.invoice_wrapper .body .main_table .table_header .row{
+	color: var(--white);
+	font-size: 18px;
+	border-bottom: 0px;	
+}
+
+.invoice_wrapper .body .main_table .row{
+	display: flex;
+	border-bottom: 1px solid var(--secondary);
+}
+
+.invoice_wrapper .body .main_table .row .col{
+	padding: 10px;
+}
+.invoice_wrapper .body .main_table .row .col_no{width: 5%;}
+.invoice_wrapper .body .main_table .row .col_des{width: 45%;}
+.invoice_wrapper .body .main_table .row .col_price{width: 20%; text-align: center;}
+.invoice_wrapper .body .main_table .row .col_qty{width: 10%; text-align: center;}
+.invoice_wrapper .body .main_table .row .col_total{width: 20%; text-align: right;}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap{
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 0 30px;
+	align-items: flex-end;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .paymethod_sec{
+	padding-left: 30px;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec{
+	width: 30%;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec p{
+	display: flex;
+	width: 100%;
+	padding-bottom: 5px;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec p span{
+	padding: 0 10px;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec p span:first-child{
+	width: 60%;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec p span:last-child{
+	width: 40%;
+	text-align: right;
+}
+
+.invoice_wrapper .body .paymethod_grandtotal_wrap .grandtotal_sec p:last-child span{
+	background: var(--primary);
+	padding: 10px;
+	color: #fff;
+}
+
+.invoice_wrapper .footer{
+	padding: 30px;
+}
+
+.invoice_wrapper .footer > p{
+	color: var(--primary);
+	text-decoration: underline;
+	font-size: 18px;
+	padding-bottom: 5px;
+}
+
+.invoice_wrapper .footer .terms .tc{
+	font-size: 16px;
+}
+    </style>
+
+
+
+<div class="custdiv">
+<button style="float: right; background-color: green; border-width: 2px;" id="downloadPdf">Download Invoice</button>
+<div id="invoice" class="wrapper">
+	<div class="invoice_wrapper">
+		<div class="header">
+			<div class="logo_invoice_wrap">
+				<div class="logo_sec">
+					<img style="margin-right: 10px;" src="https://www.linkpicture.com/q/logo_719.png" alt="code logo">
+					<div class="title_wrap">
+						<p class="title bold">HMS GLOBAL HOSPITALITY LLC</p>
+					</div>
+				</div>
+				<div class="invoice_sec">
+					<p style="margin-bottom: 1rem;" class="invoice bold">INVOICE</p>
+					<p class="invoice_no">
+						<span class="bold">Book. ID -</span>
+						<span style="font-weight: bold; color: #C92C6D;">#<%= booking.bookingID %></span>
+					</p>
+					<p class="date">
+						<span class="bold">Date -</span>
+						<span style="font-weight: bold; color: #C92C6D;"><%= booking.bookingDate %></span>
+					</p>
+				</div>
+			</div>
+			<div class="bill_total_wrap">
+				<div class="bill_sec">
+					<p>Bill To</p> 
+	          		<p class="bold name"><%= booking.bookingName %></p>
+			        <span>
+                        <%= booking.bookingUemail %><br/>
+                        <%= booking.bookingUphn %>
+			        </span>
+				</div>
+				<div style="float: right;" class="bill_sec">
+					<p style="font-weight: bold;">Check-in Date - <%= booking.checkinDate %></p>
+					<p style="font-weight: bold;">Check-out Date - <%= booking.checkoutDate %></p>
+				</div>
+			</div>
+		</div>
+		<div class="body">
+			<div class="main_table">
+				<div class="table_header">
+					<div class="row">
+						<div style="margin-right: 2rem;" class="col col_no">NO.</div>
+						<div class="col col_des">Room Type</div>
+						<div class="col col_price">Per day Tariff</div>
+						<div class="col col_qty">Days</div>
+						<div class="col col_total">TOTAL</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 20rem;" class="table_body">
+					<div class="row">
+						<div style="margin-right: 2rem;" class="col col_no">
+							<p>01</p>
+						</div>
+						<div class="col col_des">
+							<p class="bold"><%= booking.RoomType %></p>
+						</div>
+						<div class="col col_price">
+							<p>&#8377;<%= booking.RoomPTRF %></p>
+						</div>
+						<div class="col col_qty">
+							<p><%= booking.DaysStay %></p>
+						</div>
+						<div class="col col_total">
+							<p>&#8377;<%= booking.Price %></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="paymethod_grandtotal_wrap">
+				<div class="paymethod_sec">
+					<p class="bold">Payment Method</p>
+					<p style="color: green;">Card - Stripe Checkout</p>
+				</div>
+				<div class="grandtotal_sec">
+			        <p>
+			            <span style="font-weight: bold;">GRAND TOTAL</span>
+			            <span style="font-weight: bold;">&#8377;<%= booking.Price %></span>
+			        </p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p style="margin-bottom: 2rem;">Thank you and Best Wishes</p>
+			<div class="terms">
+		        <div style="margin: auto; text-align: center;"><a style="color: #C92C6D;" href="">Contact us : +1(555) 123-4567 | wecare@hmsglobal.com</a></div>
+		    </div>
+		</div>
+	</div>
+</div>
+</div>
+
+    
+
+
+
+<script src="/printThis.js"></script>
+<script>
+document.getElementById("downloadPdf")
+      .addEventListener("click", function () {
+        $("#invoice").printThis();
+      });
+</script>
+</body>
+</html>
