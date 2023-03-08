@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose")
 const ejs = require("ejs");
 const session = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -21,8 +22,9 @@ app.use(session({
     resave : false,
     saveUninitialized : false,
     cookie : {
-        expires : 600000
-    }
+        expires : 200000
+    },
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(passport.initialize());
@@ -30,10 +32,16 @@ app.use(passport.session());
 
 
 mongoose.set("strictQuery" ,false);
-mongoose.connect(process.env.MONGO_URI, () => {
-    console.log("Mongo connected");
-});
-
+const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(process.env.MONGO_URI);
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+  
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+};
 const userSchema = new mongoose.Schema({
     email : {type : String , unique : true},
     name : String,
@@ -419,7 +427,9 @@ app.post("/viewinvoice" , function(req,res){
 });
 
 
-
-app.listen(4000, function(req,res){
-    console.log("Server started on port 4000");
+connectDB().then(() => {
+    console.log("hmsDB CONNECTED SUCCESFULLY");
+    app.listen(3000, () => {
+        console.log("HMS-PG Server STARTED");
+    })
 });
